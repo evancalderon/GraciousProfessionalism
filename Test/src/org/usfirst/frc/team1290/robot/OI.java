@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1290.robot;
 
 import org.usfirst.frc.team1290.robot.commands.AcquireBox;
+import org.usfirst.frc.team1290.robot.commands.ElevatorDrop;
+import org.usfirst.frc.team1290.robot.commands.ElevatorLift;
 import org.usfirst.frc.team1290.robot.commands.ReleaseBox;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -64,6 +66,8 @@ public class OI
 		// button.whenReleased(new ExampleCommand());
 		buttonA.toggleWhenPressed(new AcquireBox());
 		buttonB.toggleWhenPressed(new ReleaseBox());
+		buttonY.whenPressed(new ElevatorLift());
+		buttonA.whenPressed(new ElevatorDrop());
 
 	}
 
@@ -74,6 +78,6 @@ public class OI
 
 	public double getRight()
 	{
-		return (joystick.getRawAxis(RobotMap.right_axis));
+		return joystick.getRawAxis(RobotMap.right_axis);
 	}
 }
