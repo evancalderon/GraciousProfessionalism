@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1290.robot;
 
 import org.usfirst.frc.team1290.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1290.robot.subsystems.Elevator;
 import org.usfirst.frc.team1290.robot.subsystems.Pincer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -28,8 +29,8 @@ public class Robot extends TimedRobot
 	private static Robot				ROBOT_SINGLETON;
 	private DriveTrain					m_drivetrain	= new DriveTrain();
 	private Pincer						m_pincer		= new Pincer();
+	private Elevator					m_elevator		= new Elevator();
 	private OI							m_oi			= new OI();
-	
 	//private Command						m_cmdAutonomous;
 	private SendableChooser<Command>	m_chooser		= new SendableChooser<>();
 
@@ -78,11 +79,15 @@ public class Robot extends TimedRobot
 	{
 		return m_drivetrain;
 	}
+
 	public Pincer getPincer()
 	{
 		return m_pincer;
 	}
-	
+	public Elevator getElevator()
+	{
+		return m_elevator;
+	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -98,20 +103,21 @@ public class Robot extends TimedRobot
 	@Override
 	public void autonomousInit()
 	{
-//		m_cmdAutonomous = m_chooser.getSelected();
-//
-//		/*
-//		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-//		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-//		 * = new MyAutoCommand(); break; case "Default Auto": default:
-//		 * autonomousCommand = new ExampleCommand(); break; }
-//		 */
-//
-//		// schedule the autonomous command (example)
-//		if (m_autonomousCommand != null)
-//		{
-//			m_autonomousCommand.start();
-//		}
+		//		m_cmdAutonomous = m_chooser.getSelected();
+		//
+		//		/*
+		//		 * String autoSelected = SmartDashboard.getString("Auto Selector",
+		//		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		//		 * = new MyAutoCommand(); break; case "Default Auto": default:
+		//		 * autonomousCommand = new ExampleCommand(); break; }
+		//		 */
+		//
+		//		// schedule the autonomous command (example)
+		//		if (m_autonomousCommand != null)
+		//		{
+		//			m_autonomousCommand.start();
+		//		}
+
 	}
 
 	/**
@@ -130,10 +136,10 @@ public class Robot extends TimedRobot
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-//		if (m_autonomousCommand != null)
-//		{
-//			m_autonomousCommand.cancel();
-//		}
+		//		if (m_autonomousCommand != null)
+		//		{
+		//			m_autonomousCommand.cancel();
+		//		}
 		Console.Print("Starting Robot Teleop");
 	}
 
@@ -145,6 +151,7 @@ public class Robot extends TimedRobot
 	{
 		m_drivetrain.setSpeedLeft(m_oi.getLeft());
 		m_drivetrain.setSpeedRight(m_oi.getRight());
+		
 		Scheduler.getInstance().run();
 	}
 
@@ -154,6 +161,6 @@ public class Robot extends TimedRobot
 	@Override
 	public void testPeriodic()
 	{
-		
+
 	}
 }
