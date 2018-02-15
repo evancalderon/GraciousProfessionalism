@@ -1,30 +1,45 @@
 package org.usfirst.frc.team1290.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import org.usfirst.frc.team1290.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team1290.robot.subsystems.Elevator;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class ElevatorLift extends Command
 {
+//	//should prevent both comands from running
+// 	public ElevatorLift(){
+//		requires(Robot.getInstance().getElevator());
+//		setTimeout(1);
+//	}
+	//===============
 	protected void initialize()
 	{
+		/* choose the sensor and sensor direction */
+		Scheduler.getInstance().removeAll();
+
 	}
-	
+
 	protected void execute()
 	{
-		Elevator.m_elevator.set(ControlMode.PercentOutput, Elevator.speed);
+		Robot.getInstance().getElevator().moveTop();
+		
 	}
-	
+
 	protected boolean isFinished()
 	{
+		
 		// TODO: Make this return true when this Command no longer needs to run execute()
-		return false;
+		if(Robot.getInstance().getElevator().isAtTop()){
+			Robot.getInstance().getElevator().stopMoving();
+		}
+		return Robot.getInstance().getElevator().isAtTop();
 	}
-	
+
 	protected void end()
 	{
 	}
-	
+
 	protected void interrupted()
 	{
 		super.interrupted();
