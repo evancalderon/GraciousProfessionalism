@@ -33,9 +33,9 @@ public class RobotMap
 	public static final int	CTL_PINCER_R_FOLLOW		= 6;
 	
 	public static final int	CTL_ELEVATOR			= 7;
-	
+  
 	public static final int	CTL_PINCER_DEPLOY		= 8;
-	
+  
 	//TODO: Find out how the motors for these legs need to turn
 	public static final int	CTL_LEG_LF_DRIVER		= 13;
 	public static final int	CTL_LEG_LB_FOLLOW		= 10;

@@ -23,12 +23,10 @@ public class ElevatorLift extends Command
 	protected void execute()
 	{
 		Robot.getInstance().getElevator().moveTop();
-		
 	}
 
 	protected boolean isFinished()
 	{
-		
 		// TODO: Make this return true when this Command no longer needs to run execute()
 		if(Robot.getInstance().getElevator().isAtTop()){
 			Robot.getInstance().getElevator().stopMoving();

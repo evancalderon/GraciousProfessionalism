@@ -24,7 +24,6 @@ public class Elevator extends UpDownSubsystem
 	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based 
 	 * configuration. 
 	 */
-	//	private static final int	elevator_Slot_Idx		= 0;
 
 	/* 
 	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For 
@@ -97,7 +96,7 @@ public class Elevator extends UpDownSubsystem
 	{
 		m_elevator.set(ControlMode.Position, ELEVATOR_TOP_POS);
 	}
-
+  
 	public void moveBottom()
 	{
 		m_elevator.set(ControlMode.Position, ELEVATOR_BOTTOM_POS);

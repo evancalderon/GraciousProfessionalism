@@ -131,7 +131,7 @@ public class Robot extends TimedRobot
 	{
 		return m_elevator;
 	}
-
+  
 	public Legs getLegs()
 	{
 		return m_legs;
@@ -199,7 +199,6 @@ public class Robot extends TimedRobot
 	{
 		m_drivetrain.setSpeedLeft(m_oi.getLeft());
 		m_drivetrain.setSpeedRight(m_oi.getRight());
-
 		Scheduler.getInstance().run();
 	}
 
