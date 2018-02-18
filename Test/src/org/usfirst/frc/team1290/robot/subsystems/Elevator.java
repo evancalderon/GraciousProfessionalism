@@ -1,31 +1,30 @@
 package org.usfirst.frc.team1290.robot.subsystems;
 
+import org.usfirst.frc.team1290.robot.Console;
+import org.usfirst.frc.team1290.robot.RobotMap;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-
-import org.usfirst.frc.team1290.robot.RobotMap;
-
-
-public class Elevator extends Subsystem
+public class Elevator extends UpDownSubsystem
 {
 
-	private static final int TICKS_PER_REV = 4096;
-	
-	private static final int ELEVATOR_BOTTOM_POS = 0;
+	private static final double	TICKS_PER_REV			= 4096;
 
-	private static final double ELEVATOR_TOP_POS = 2 * TICKS_PER_REV;
+	private static final int	ELEVATOR_BOTTOM_POS		= 0 - (381);
 
+	private static final double	ELEVATOR_TOP_POS		= 2 * TICKS_PER_REV + 381;
+
+	private static final int	ELEVATOR_VELOCITY		= 10000;
 
 	/** 
 	 * Which PID slot to pull gains from. Starting 2018, you can choose from 
 	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based 
 	 * configuration. 
 	 */
-//	private static final int	elevator_Slot_Idx		= 0;
+	//	private static final int	elevator_Slot_Idx		= 0;
 
 	/* 
 	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For 
@@ -94,29 +93,44 @@ public class Elevator extends Subsystem
 		m_elevator.setSelectedSensorPosition(absolutePosition, elevator_PIDLoop_Idx, elevator_TimeoutMs);
 	}
 
-
-
 	public void moveTop()
 	{
-		m_elevator.set(ControlMode.Velocity, ELEVATOR_TOP_POS);
-	}
-	public void moveBottom()
-	{
-		m_elevator.set(ControlMode.Velocity, -ELEVATOR_TOP_POS);
+		m_elevator.set(ControlMode.Position, ELEVATOR_TOP_POS);
 	}
 
-	public boolean isAtTop ()
+	public void moveBottom()
 	{
-		System.out.println(m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx));
+		m_elevator.set(ControlMode.Position, ELEVATOR_BOTTOM_POS);
+	}
+
+	public boolean isAtTop()
+	{
+		//		System.out.println(m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx));
 		return m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx) >= ELEVATOR_TOP_POS;
 	}
-	public boolean isAtBottom ()
+
+	public boolean isAtBottom()
 	{
-		System.out.println(m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx));
+		//		System.out.println(m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx));
 		return m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx) <= ELEVATOR_BOTTOM_POS;
 	}
+
 	public void stopMoving()
 	{
-		m_elevator.set(ControlMode.PercentOutput, 0);
+		//System.out.println("Before " + ControlMode.Velocity);
+		Console.Print("Before " + m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx));
+		m_elevator.set(ControlMode.Velocity, 0);
+		Console.Print("After " + m_elevator.getSelectedSensorPosition(elevator_PIDLoop_Idx));
+		//System.out.println("After " + ControlMode.Velocity);
+		//TODO: terminate command
+	}
+	public TalonSRX getDriver()
+	{
+		return m_elevator;
+	}
+
+	public int getLoopThing()
+	{
+		return elevator_PIDLoop_Idx;
 	}
 }

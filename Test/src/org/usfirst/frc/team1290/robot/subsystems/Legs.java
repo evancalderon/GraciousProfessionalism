@@ -1,30 +1,25 @@
 package org.usfirst.frc.team1290.robot.subsystems;
 
+import org.usfirst.frc.team1290.robot.RobotMap;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-import org.usfirst.frc.team1290.robot.RobotMap;
-
-public class Legs extends Subsystem
+public class Legs extends UpDownSubsystem
 {
+	private static final double	TICKS_PER_REV		= 4096;
 
-	private static final int	TICKS_PER_REV			= 4096;
-
-	private static final int	LiftLegs_BOTTOM_POS		= 0;
-
-	private static final double	LiftLegs_TOP_POS		= 2 * TICKS_PER_REV;
+	// Added 381 to compensate for setting position because position is borked
+	private static final int	LIFT_LEGS_BOTTOM_POS	= 0 + (381);
+	private static final double	LIFT_LEGS_TOP_POS		= -(140 * TICKS_PER_REV + 381);
 
 	/** 
 	 * Which PID slot to pull gains from. Starting 2018, you can choose from 
 	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based 
 	 * configuration. 
 	 */
-	//	private static final int	elevator_Slot_Idx		= 0;
 
 	/* 
 	 * Talon SRX/ Victor SPX will supported multiple (cascaded) PID loops. For 
@@ -100,28 +95,24 @@ public class Legs extends Subsystem
 		m_liftLegs_LF_Driver.setSelectedSensorPosition(absolutePosition, LiftLegs_PIDLoop_Idx, LiftLegs_TimeoutMs);
 	}
 
-	private Command m_activeCommand = null;
-
 	public void moveTop()
 	{
-		m_liftLegs_LF_Driver.set(ControlMode.Velocity, LiftLegs_TOP_POS);
+		m_liftLegs_LF_Driver.set(ControlMode.Position, LIFT_LEGS_TOP_POS);
 	}
 
 	public void moveBottom()
 	{
-		m_liftLegs_LF_Driver.set(ControlMode.Velocity, -LiftLegs_TOP_POS);
+		m_liftLegs_LF_Driver.set(ControlMode.Position, LIFT_LEGS_BOTTOM_POS);
 	}
 
 	public boolean isAtTop()
 	{
-		System.out.println(m_liftLegs_LF_Driver.getSelectedSensorPosition(LiftLegs_PIDLoop_Idx));
-		return m_liftLegs_LF_Driver.getSelectedSensorPosition(LiftLegs_PIDLoop_Idx) >= LiftLegs_TOP_POS;
+		return m_liftLegs_LF_Driver.getSelectedSensorPosition(LiftLegs_PIDLoop_Idx) <= LIFT_LEGS_TOP_POS;
 	}
 
 	public boolean isAtBottom()
 	{
-		System.out.println(m_liftLegs_LF_Driver.getSelectedSensorPosition(LiftLegs_PIDLoop_Idx));
-		return m_liftLegs_LF_Driver.getSelectedSensorPosition(LiftLegs_PIDLoop_Idx) <= LiftLegs_BOTTOM_POS;
+		return m_liftLegs_LF_Driver.getSelectedSensorPosition(LiftLegs_PIDLoop_Idx) >= LIFT_LEGS_BOTTOM_POS;
 	}
 
 	public void stopMoving()
@@ -129,13 +120,13 @@ public class Legs extends Subsystem
 		m_liftLegs_LF_Driver.set(ControlMode.PercentOutput, 0);
 	}
 
-	public Command getActiveCommand()
+	public TalonSRX getDriver()
 	{
-		return m_activeCommand;
+		return m_liftLegs_LF_Driver;
 	}
 
-	public void setActiveCommand(Command cmd)
+	public int getLoopThing()
 	{
-		m_activeCommand = cmd;
+		return LiftLegs_PIDLoop_Idx;
 	}
 }

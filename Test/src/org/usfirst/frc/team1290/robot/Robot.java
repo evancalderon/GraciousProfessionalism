@@ -7,6 +7,15 @@
 
 package org.usfirst.frc.team1290.robot;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
+
 import org.usfirst.frc.team1290.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1290.robot.subsystems.Elevator;
 import org.usfirst.frc.team1290.robot.subsystems.Legs;
@@ -32,7 +41,7 @@ public class Robot extends TimedRobot
 	private Pincer						m_pincer		= new Pincer();
 	private Elevator					m_elevator		= new Elevator();
 	private Legs						m_legs			= new Legs();
-	private OI							m_oi			= new OI();
+	private OI							m_oi			= null;
 	//private Command						m_cmdAutonomous;
 	private SendableChooser<Command>	m_chooser		= new SendableChooser<>();
 
@@ -48,10 +57,41 @@ public class Robot extends TimedRobot
 	@Override
 	public void robotInit()
 	{
+		Thread t = new Thread(() ->
+		{
+			ByteBuffer bufInput = ByteBuffer.allocate(256);
+			DatagramChannel chan = null;
+			SocketAddress addr = new InetSocketAddress("172.22.11.1", 4678);
+			try
+			{
+				chan = DatagramChannel.open();
+				DatagramSocket s = chan.socket();
+				s.connect(addr);
+				byte[] tosend = "Hello!".getBytes();
+				
+				s.send(new DatagramPacket(tosend, tosend.length));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		});
+		t.start();
+
+		try (DatagramSocket s = new DatagramSocket(4678))
+		{
+			InetSocketAddress address = new InetSocketAddress(4678);
+			s.connect(address);
+		}
+		catch (Throwable e)
+		{
+			e.printStackTrace();
+		}
+
+		ROBOT_SINGLETON = this;
 		m_oi = new OI();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		ROBOT_SINGLETON = this;
 
 	}
 
@@ -69,7 +109,7 @@ public class Robot extends TimedRobot
 	@Override
 	public void disabledPeriodic()
 	{
-		Scheduler.getInstance().run();
+		//Scheduler.getInstance().run();
 	}
 
 	public OI getOperatorInterface()

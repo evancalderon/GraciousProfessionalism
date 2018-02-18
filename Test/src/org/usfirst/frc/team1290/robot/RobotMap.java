@@ -26,8 +26,8 @@ public class RobotMap
 	// public static final int rangefinderModule = 1;
 	public static final int	CTL_DRIVETRAIN_L_DRIVER	= 1;	//Talon ID# that Left Front Motor is hooked up to.
 	public static final int	CTL_DRIVETRAIN_L_FOLLOW	= 2;	//Talon ID# that Left Rear Motor is hooked up to.
-	public static final int	CTL_DRIVETRAIN_R_DRIVER	= 3;	//Talon ID# that Right Front Motor is hooked up to.
-	public static final int	CTL_DRIVETRAIN_R_FOLLOW	= 4;	//Talon ID# that Right Rear Motor is hooked up to.
+	public static final int	CTL_DRIVETRAIN_R_DRIVER	= 4;	//Talon ID# that Right Front Motor is hooked up to.
+	public static final int	CTL_DRIVETRAIN_R_FOLLOW	= 3;	//Talon ID# that Right Rear Motor is hooked up to.
 
 	public static final int	CTL_PINCER_L_DRIVER		= 5;
 	public static final int	CTL_PINCER_R_FOLLOW		= 6;
@@ -37,7 +37,7 @@ public class RobotMap
 	public static final int	CTL_PINCER_DEPLOY		= 8;
 	
 	//TODO: Find out how the motors for these legs need to turn
-	public static final int	CTL_LEG_LF_DRIVER		= 9;
+	public static final int	CTL_LEG_LF_DRIVER		= 13;
 	public static final int	CTL_LEG_LB_FOLLOW		= 10;
 	public static final int	CTL_LEG_RF_FOLLOW		= 11;
 	public static final int	CTL_LEG_RB_FOLLOW		= 12;

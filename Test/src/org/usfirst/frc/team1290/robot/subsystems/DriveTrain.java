@@ -41,7 +41,7 @@ public class DriveTrain extends Subsystem
 
 	public void setSpeedRight(double speed)
 	{
-		m_rightFollower.set(ControlMode.PercentOutput, Sensitivity.calculate(speed));
+		m_rightDriver.set(ControlMode.PercentOutput, Sensitivity.calculate(speed));
 	}
 
 	public void setSpeedLeft(double speed)
